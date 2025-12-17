@@ -2,7 +2,7 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">10.0.2.2</domain>              <!-- Untuk emulator -->
-        <domain includeSubdomains="true">192.168.0.106</domain>        <!-- Ganti dengan IP kamu -->
+        <domain includeSubdomains="true">192.168.0.193</domain>        <!-- Ganti dengan IP kamu -->
         <domain includeSubdomains="true">localhost</domain>
     </domain-config>
 </network-security-config>
