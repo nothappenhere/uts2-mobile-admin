@@ -1,4 +1,4 @@
-package com.example.uts2agroorderadmin.ui.fragments
+package com.example.uts2agroorderadmin.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,7 +35,12 @@ class WeatherFragment : Fragment() {
               (via endpoint /api/weather)
             
             Aplikasi: AgroOrder Admin
-            Dikembangkan oleh: [Nama Kalian & NPM]
+            Dikembangkan oleh:
+						• 152022166 Muhammad Rizky Akbar
+						• 152022142 Gumiwang Maysa Nusi
+						• 152022137 Baraja Barsya Pinandhita
+						• 152022169 Erick Erlangga P. W.
+						• 152022144 Luthfiansyah Putra Dean F.
         """.trimIndent()
 
 		loadWeather()

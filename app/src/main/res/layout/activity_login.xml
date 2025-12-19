@@ -9,7 +9,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Client AgroOrder"
+        android:text="Admin AgroOrder"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"

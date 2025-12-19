@@ -1,9 +1,8 @@
-package com.example.uts2agroorderadmin.ui.fragments
+package com.example.uts2agroorderadmin.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
@@ -12,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.uts2agroorderadmin.R
 import com.example.uts2agroorderadmin.api.RetrofitClient
 import com.example.uts2agroorderadmin.model.User
@@ -21,12 +21,18 @@ import kotlinx.coroutines.launch
 class UsersFragment : Fragment() {
 
 	private lateinit var adapter: UserAdapter
+	private lateinit var swipeRefresh: SwipeRefreshLayout
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
 		val view = inflater.inflate(R.layout.fragment_users, container, false)
+
+		swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+		swipeRefresh.setOnRefreshListener {
+			loadUsers()
+		}
 
 		adapter = UserAdapter { userId ->
 			approveUser(userId)
@@ -42,6 +48,7 @@ class UsersFragment : Fragment() {
 	}
 
 	private fun loadUsers() {
+		swipeRefresh.isRefreshing = true
 		val token = PreferencesManager(requireContext()).getToken() ?: return
 
 		lifecycleScope.launch {
@@ -49,7 +56,6 @@ class UsersFragment : Fragment() {
 				val response = RetrofitClient.apiService.getUsers(token)
 				if (response.isSuccessful) {
 					val users = response.body() ?: emptyList()
-					// Filter hanya client
 					val clients = users.filter { it.role.uppercase() == "CLIENT" }
 					adapter.submitList(clients)
 				} else {
@@ -57,6 +63,8 @@ class UsersFragment : Fragment() {
 				}
 			} catch (e: Exception) {
 				Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+			} finally {
+				swipeRefresh.isRefreshing = false
 			}
 		}
 	}
@@ -69,7 +77,7 @@ class UsersFragment : Fragment() {
 				val response = RetrofitClient.apiService.approveUser(token, userId)
 				if (response.isSuccessful) {
 					Toast.makeText(requireContext(), "User berhasil di-approve", Toast.LENGTH_SHORT).show()
-					loadUsers() // Refresh list
+					loadUsers() // Refresh otomatis setelah approve
 				} else {
 					Toast.makeText(requireContext(), "Gagal approve user", Toast.LENGTH_SHORT).show()
 				}
