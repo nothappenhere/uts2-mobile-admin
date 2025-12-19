@@ -80,4 +80,7 @@ dependencies {
 
 	// TabLayout
 	implementation(libs.material)
+
+	// SwipeRefreshLayout
+	implementation(libs.androidx.swiperefreshlayout)
 }
