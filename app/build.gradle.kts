@@ -80,4 +80,7 @@ dependencies {
 
 	// TabLayout
 	implementation(libs.material)
+
+	//	MPAndroidChart untuk Grafik
+	implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

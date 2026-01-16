@@ -30,12 +30,9 @@ class WeatherFragment : Fragment() {
 		// Tampilkan info API (poin 3 tugas)
 		tvAboutApi.text = """
             API yang Digunakan:
-            • Backend: http://your-ip:3000/api
+            • Backend: http://<your-ip>:3000/api
             • Cuaca: OpenWeatherMap API
               (via endpoint /api/weather)
-            
-            Aplikasi: AgroOrder Admin
-            Dikembangkan oleh: [Nama Kalian & NPM]
         """.trimIndent()
 
 		loadWeather()

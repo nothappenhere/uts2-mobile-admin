@@ -3,17 +3,19 @@ package com.example.uts2agroorderadmin.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.uts2agroorderadmin.R
+import com.example.uts2agroorderadmin.ui.fragment.DashboardFragment
+import com.example.uts2agroorderadmin.ui.fragment.AboutFragment
 import com.example.uts2agroorderadmin.ui.fragment.OrdersFragment
 import com.example.uts2agroorderadmin.ui.fragments.UsersFragment
 import com.example.uts2agroorderadmin.ui.fragments.WeatherFragment
 import com.example.uts2agroorderadmin.util.PreferencesManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 
 class MainActivity : AppCompatActivity() {
 	private lateinit var prefs: PreferencesManager
@@ -31,18 +33,18 @@ class MainActivity : AppCompatActivity() {
 		}
 
 		val fragments = listOf(
+			DashboardFragment(),
 			UsersFragment(),
 			OrdersFragment(),
-			WeatherFragment()
+			WeatherFragment(),
+			AboutFragment()
 		)
-		val titles = listOf("Users", "Orders", "Weather")
+		val titles = listOf("Dashboard", "Users", "Orders", "Weather", "About")
 
 		val viewPager = findViewById<ViewPager2>(R.id.viewPager)
+		viewPager.adapter = ViewPagerAdapter(this, fragments)
+
 		val tabLayout = findViewById<TabLayout>(R.id.tabLayout)
-
-		val adapter = ViewPagerAdapter(this, fragments)
-		viewPager.adapter = adapter
-
 		TabLayoutMediator(tabLayout, viewPager) { tab, position ->
 			tab.text = titles[position]
 		}.attach()
