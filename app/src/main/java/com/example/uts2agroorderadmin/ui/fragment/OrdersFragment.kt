@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.uts2agroorderadmin.R
 import com.example.uts2agroorderadmin.adapter.OrderAdapter
 import com.example.uts2agroorderadmin.api.RetrofitClient
@@ -22,11 +23,13 @@ class OrdersFragment : Fragment() {
 	private lateinit var emptyStateLayout: View
 	private lateinit var progressBar: ProgressBar
 
-	override fun onCreateView(
-		inflater: LayoutInflater, container: ViewGroup?,
-		savedInstanceState: Bundle?
-	): View? {
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = inflater.inflate(R.layout.fragment_orders, container, false)
+
+		swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+		swipeRefresh.setOnRefreshListener {
+			loadOrders()
+		}
 
 		adapter = OrderAdapter { order, newStatus ->
 			updateStatus(order.id, newStatus)
@@ -38,7 +41,7 @@ class OrdersFragment : Fragment() {
 
 		rvOrders.apply {
 			layoutManager = LinearLayoutManager(requireContext())
-			adapter = this@OrdersFragment.adapter
+			this.adapter = this@OrdersFragment.adapter
 		}
 
 		loadOrders()
@@ -52,6 +55,7 @@ class OrdersFragment : Fragment() {
 	}
 
 	private fun loadOrders() {
+		swipeRefresh.isRefreshing = true
 		val token = PreferencesManager(requireContext()).getToken() ?: return
 
 		// Show loading
@@ -103,9 +107,7 @@ class OrdersFragment : Fragment() {
 
 		lifecycleScope.launch {
 			try {
-				val response = RetrofitClient.apiService.updateOrderStatus(
-					token, orderId, mapOf("status" to status)
-				)
+				val response = RetrofitClient.apiService.updateOrderStatus(token, orderId, mapOf("status" to status))
 				if (response.isSuccessful) {
 					Toast.makeText(
 						requireContext(),

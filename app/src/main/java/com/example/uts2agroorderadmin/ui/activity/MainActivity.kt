@@ -2,6 +2,8 @@ package com.example.uts2agroorderadmin.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -11,8 +13,8 @@ import com.example.uts2agroorderadmin.R
 import com.example.uts2agroorderadmin.ui.fragment.DashboardFragment
 import com.example.uts2agroorderadmin.ui.fragment.AboutFragment
 import com.example.uts2agroorderadmin.ui.fragment.OrdersFragment
-import com.example.uts2agroorderadmin.ui.fragments.UsersFragment
-import com.example.uts2agroorderadmin.ui.fragments.WeatherFragment
+import com.example.uts2agroorderadmin.ui.fragment.UsersFragment
+import com.example.uts2agroorderadmin.ui.fragment.WeatherFragment
 import com.example.uts2agroorderadmin.util.PreferencesManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -32,6 +34,11 @@ class MainActivity : AppCompatActivity() {
 			return
 		}
 
+		// Setup Toolbar
+		val toolbar = findViewById<Toolbar>(R.id.toolbar)
+		setSupportActionBar(toolbar)
+		supportActionBar?.title = "AgroOrder Admin"
+
 		val fragments = listOf(
 			DashboardFragment(),
 			UsersFragment(),
@@ -48,6 +55,27 @@ class MainActivity : AppCompatActivity() {
 		TabLayoutMediator(tabLayout, viewPager) { tab, position ->
 			tab.text = titles[position]
 		}.attach()
+	}
+
+	// Inflate menu
+	override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+		menuInflater.inflate(R.menu.menu_main, menu)
+		return true
+	}
+
+	// Handle menu item click
+	override fun onOptionsItemSelected(item: MenuItem): Boolean {
+		if (item.itemId == R.id.action_logout) {
+			logout()
+			return true
+		}
+		return super.onOptionsItemSelected(item)
+	}
+
+	private fun logout() {
+		prefs.clear()  // Hapus token
+		startActivity(Intent(this, LoginActivity::class.java))
+		finish()
 	}
 }
 

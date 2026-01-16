@@ -1,4 +1,4 @@
-package com.example.uts2agroorderadmin.ui.fragments
+package com.example.uts2agroorderadmin.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
