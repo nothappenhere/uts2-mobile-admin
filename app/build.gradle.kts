@@ -81,6 +81,6 @@ dependencies {
 	// TabLayout
 	implementation(libs.material)
 
-	// SwipeRefreshLayout
-	implementation(libs.androidx.swiperefreshlayout)
+	//	MPAndroidChart untuk Grafik
+	implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
